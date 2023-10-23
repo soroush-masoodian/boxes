@@ -1,5 +1,6 @@
 package com.example.demo1;
 
+import com.example.demo1.View.MainUI;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
@@ -13,7 +14,7 @@ public class EditorApp extends Application {
 
     @Override
     public void start( Stage stage ) {
-        HBox root = new HBox();
+        MainUI root = new MainUI();
 
         Scene scene = new Scene( root , appWidth, appHeight);
         stage.setTitle( "Hello!" );
