@@ -1,11 +1,11 @@
 package com.example.demo1.Model;
 
+import javafx.beans.property.BooleanProperty;
 
 public class Box {
     private double myTop, myLeft;
     private static double width = 100;
     private static double height = 100;
-    private
 
     public Box(double x, double y) {
         myLeft = x;

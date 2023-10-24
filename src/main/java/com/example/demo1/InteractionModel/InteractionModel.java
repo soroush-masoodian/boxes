@@ -4,6 +4,7 @@ import com.example.demo1.Model.Box;
 import com.example.demo1.Model.BoxModel;
 import com.example.demo1.Subscriber;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.paint.Color;
 
@@ -13,12 +14,11 @@ import java.util.ArrayList;
  *
  */
 public class InteractionModel {
-    final static Color CURSOR_COLOR = Color.ORANGE;
     IntegerProperty cursorPos;
     BoxModel model;
 
     public InteractionModel() {
-        cursorPos.setValue( null );
+        cursorPos = new SimpleIntegerProperty( -1 );
     }
 
     public void setModel( BoxModel model ) {
@@ -26,17 +26,21 @@ public class InteractionModel {
     }
 
     public void moveCursor() {
-        if ( cursorPos.getValue() == null ) {
+        if (model.getBoxes().size() == 0) {
+            cursorPos.setValue( -1 );
+            return;
+        }
+        else if ( cursorPos.getValue() == -1 ) {
             cursorPos.setValue( 0 );
         }
-        else {
-            if ( cursorPos.getValue() == model.getBoxes().size() - 1 ) {
+        else if ( cursorPos.getValue() == model.getBoxes().size() - 1) {
                 cursorPos.setValue( 0 );
             }
-            else {
-                cursorPos.setValue( cursorPos.getValue() + 1 );
-            }
+        else {
+            cursorPos.setValue( cursorPos.getValue() + 1 );
         }
         model.notifySubscribers();
     }
+
+    public int getCursorPos() { return cursorPos.getValue(); }
 }

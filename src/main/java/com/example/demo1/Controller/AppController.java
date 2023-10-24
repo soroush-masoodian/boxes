@@ -3,6 +3,7 @@ package com.example.demo1.Controller;
 import com.example.demo1.InteractionModel.InteractionModel;
 import com.example.demo1.Model.Box;
 import com.example.demo1.Model.BoxModel;
+import javafx.beans.property.IntegerProperty;
 import javafx.scene.input.*;
 
 import java.security.Key;

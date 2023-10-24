@@ -1,6 +1,7 @@
 package com.example.demo1.View;
 
 import com.example.demo1.Controller.AppController;
+import com.example.demo1.InteractionModel.InteractionModel;
 import com.example.demo1.Model.Box;
 import com.example.demo1.Subscriber;
 import javafx.scene.canvas.Canvas;
@@ -12,12 +13,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 public class BoxView extends StackPane implements Subscriber {
+    final String DEFAULT_SQUARE_COLOR = "#32a8a6";
+    final String SELECTED_SQUARE_COLOR = "#f06d0a";
+    final String SQUARE_BORDER_COLOR = "#000000";
     final double CANVAS_WIDTH = 800;
     final double CANVAS_HEIGHT = 800;
     Canvas canvas;
     GraphicsContext graphicsContext;
+    InteractionModel iModel;
 
     public BoxView() {
         canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -27,20 +33,29 @@ public class BoxView extends StackPane implements Subscriber {
         this.setStyle( "-fx-background-color: #022305FF" );
     }
 
+    public void setIModel(InteractionModel newIModel) { iModel = newIModel; }
+
     public void setupEvents( AppController controller ) {
         this.setOnKeyPressed( event -> controller.handleEvent( event ));
     }
 
     public void draw( ArrayList<Box> boxes ) {
         graphicsContext.clearRect( 0, 0, canvas.getWidth(), canvas.getHeight() );
-        boxes.forEach( box -> {
-            graphicsContext.setFill( Paint.valueOf( "#32a8a6" ) );
+        ListIterator<Box> boxesIterator = boxes.listIterator();
+        while (boxesIterator.hasNext()) {
+            Box box = boxesIterator.next();
+            if ( boxesIterator.nextIndex() - 1 == iModel.getCursorPos()) {
+                graphicsContext.setFill( Paint.valueOf( SELECTED_SQUARE_COLOR ) );
+            }
+            else {
+                graphicsContext.setFill( Paint.valueOf( DEFAULT_SQUARE_COLOR ) );
+            }
+
             graphicsContext.fillRect( box.getMyLeft(), box.getMyTop(), box.getWidth(), box.getHeight() );
 
-            graphicsContext.setFill( Paint.valueOf( "#000000" ) );
+            graphicsContext.setFill( Paint.valueOf( SQUARE_BORDER_COLOR ) );
             graphicsContext.strokeRect( box.getMyLeft(), box.getMyTop(), box.getWidth(), box.getHeight() );
         }
-        );
     }
 
     public void modelChanged( ArrayList<Box> boxes ) {
