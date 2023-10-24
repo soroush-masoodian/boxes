@@ -15,10 +15,11 @@ public class MainUI extends StackPane {
         BoxView view = new BoxView();
         AppController controller = new AppController();
 
-        // link view with controller
-        // link contrller with model
-        // model.addSubscriber(view)
+        view.setupEvents( controller );
+        controller.setModel( model );
+        model.addSubscriber( view );
 
-        //this.getChildren().add(view);
+        this.onKeyPressedProperty().bind( view.onKeyPressedProperty() );
+        this.getChildren().add( view );
     }
 }

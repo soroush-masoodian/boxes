@@ -5,10 +5,11 @@ public class Box {
     private double myTop, myLeft;
     private static double width = 100;
     private static double height = 100;
+    private
 
     public Box(double x, double y) {
-        this.myLeft = x;
-        this.myTop = y;
+        myLeft = x;
+        myTop = y;
     }
 
     public double getMyTop() {

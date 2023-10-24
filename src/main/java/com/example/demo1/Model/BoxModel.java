@@ -13,6 +13,11 @@ public class BoxModel {
 
     public BoxModel() {
         boxes = new ArrayList<>();
+        subscribers = new ArrayList<>();
+    }
+
+    public ArrayList<Box> getBoxes() {
+        return boxes;
     }
 
     public void addBox() {
@@ -25,7 +30,6 @@ public class BoxModel {
             boxes.add( new Box( firstBoxPosX, firstBoxPosY ) );
         }
         notifySubscribers();
-
     }
 
     public void addSubscriber( Subscriber subscriber ) {

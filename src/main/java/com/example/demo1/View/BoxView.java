@@ -28,15 +28,22 @@ public class BoxView extends StackPane implements Subscriber {
     }
 
     public void setupEvents( AppController controller ) {
-        this.setOnKeyPressed( controller::handleEvent );
+        this.setOnKeyPressed( event -> controller.handleEvent( event ));
     }
 
     public void draw( ArrayList<Box> boxes ) {
         graphicsContext.clearRect( 0, 0, canvas.getWidth(), canvas.getHeight() );
-        boxes.forEach( box -> graphicsContext.strokeRect( box.getMyLeft(), box.getMyTop(), box.getWidth(), box.getHeight() ) );
+        boxes.forEach( box -> {
+            graphicsContext.setFill( Paint.valueOf( "#32a8a6" ) );
+            graphicsContext.fillRect( box.getMyLeft(), box.getMyTop(), box.getWidth(), box.getHeight() );
+
+            graphicsContext.setFill( Paint.valueOf( "#000000" ) );
+            graphicsContext.strokeRect( box.getMyLeft(), box.getMyTop(), box.getWidth(), box.getHeight() );
+        }
+        );
     }
 
-    public void modelChanged(ArrayList<Box> boxes) {
+    public void modelChanged( ArrayList<Box> boxes ) {
         draw( boxes );
     }
 }
