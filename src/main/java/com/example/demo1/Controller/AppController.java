@@ -14,7 +14,6 @@ import java.security.Key;
 public class AppController {
     BoxModel model;
     InteractionModel iModel;
-    KeyCombination controlC = new KeyCodeCombination( KeyCode.C, KeyCombination.CONTROL_ANY );
 
     public void setModel(BoxModel model) {
         this.model = model;
@@ -26,7 +25,7 @@ public class AppController {
 
     public void handleEvent( KeyEvent event ) {
 
-        if (controlC.match( event )) {
+        if (event.getCode().equals( KeyCode.C ) && event.isControlDown()) {
             model.addBox();
         }
         if (event.getCode().equals( KeyCode.TAB )) {
