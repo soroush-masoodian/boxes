@@ -32,6 +32,11 @@ public class BoxModel {
         notifySubscribers();
     }
 
+    public void deleteBox(Box box) {
+        boxes.remove( box );
+        notifySubscribers();
+    }
+
     public void addSubscriber( Subscriber subscriber ) {
         this.subscribers.add( subscriber );
         notifySubscribers();

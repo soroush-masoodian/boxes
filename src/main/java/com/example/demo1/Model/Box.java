@@ -26,6 +26,14 @@ public class Box {
         return width;
     }
 
+    public void setMyTop( double myTop ) {
+        this.myTop = myTop;
+    }
+
+    public void setMyLeft( double myLeft ) {
+        this.myLeft = myLeft;
+    }
+
     public double getHeight() {
         return height;
     }

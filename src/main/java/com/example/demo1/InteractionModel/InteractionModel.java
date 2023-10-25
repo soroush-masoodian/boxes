@@ -15,6 +15,7 @@ import java.util.ArrayList;
  *
  */
 public class InteractionModel {
+    final int MOVEMENT_SPEED = 5;
     IntegerProperty cursorPos;
     BoxModel model;
     ArrayList<Box> selectedBoxes;
@@ -47,6 +48,10 @@ public class InteractionModel {
 
     public int getCursorPos() { return cursorPos.getValue(); }
 
+    public void setCursorPos(int pos) {
+        cursorPos.setValue( pos );
+    }
+
     public ArrayList<Box> getSelectedBoxes() {
         return selectedBoxes;
     }
@@ -70,6 +75,35 @@ public class InteractionModel {
 
     public void removeAllSelectedBoxes() {
         selectedBoxes.clear();
+        cursorPos.setValue( -1 );
+        model.notifySubscribers();
+    }
+
+    public void moveSelectedBoxesUp() {
+        for ( Box box : selectedBoxes ) {
+            box.setMyTop( box.getMyTop() - MOVEMENT_SPEED );
+        }
+        model.notifySubscribers();
+    }
+
+    public void moveSelectedBoxesDown() {
+        for ( Box box : selectedBoxes ) {
+            box.setMyTop( box.getMyTop() + MOVEMENT_SPEED );
+        }
+        model.notifySubscribers();
+    }
+
+    public void moveSelectedBoxesLeft() {
+        for ( Box box : selectedBoxes ) {
+            box.setMyLeft( box.getMyLeft() - MOVEMENT_SPEED );
+        }
+        model.notifySubscribers();
+    }
+
+    public void moveSelectedBoxesRight() {
+        for ( Box box : selectedBoxes ) {
+            box.setMyLeft( box.getMyLeft() + MOVEMENT_SPEED );
+        }
         model.notifySubscribers();
     }
 }
