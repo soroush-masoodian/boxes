@@ -20,7 +20,7 @@ public class BoxView extends StackPane implements Subscriber {
     final String SELECTED_SQUARE_COLOR = "#fc461d";
     final String SQUARE_BORDER_COLOR = "#000000";
     final String SELECTED_SQUARE_BORDER_COLOR = "#ffff00";
-    final double BORDER_WIDTH = 3.5;
+    final double BORDER_WIDTH = 5;
     final double CANVAS_WIDTH = 800;
     final double CANVAS_HEIGHT = 800;
     Canvas canvas;

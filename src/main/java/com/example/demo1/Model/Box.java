@@ -6,12 +6,14 @@ import java.util.ArrayList;
 
 public class Box {
     private double myTop, myLeft;
-    private static double width = 100;
-    private static double height = 100;
+    private double width;
+    private double height;
 
     public Box(double x, double y) {
         myLeft = x;
         myTop = y;
+        width = 100;
+        height = 100;
     }
 
     public double getMyTop() {
@@ -26,6 +28,10 @@ public class Box {
         return width;
     }
 
+    public void setWidth( double newWidth ) {
+        width = newWidth;
+    }
+
     public void setMyTop( double myTop ) {
         this.myTop = myTop;
     }
@@ -36,5 +42,9 @@ public class Box {
 
     public double getHeight() {
         return height;
+    }
+
+    public void setHeight( double newHeight ) {
+        height = newHeight;
     }
 }

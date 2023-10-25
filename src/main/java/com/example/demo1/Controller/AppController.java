@@ -106,17 +106,19 @@ public class AppController {
 
     public void selectedStateEvents( KeyEvent event ) {
         if (event.isControlDown()) {
-            if ( event.getCode().equals( KeyCode.S ) ) {
-                handleControlSInput();
-            }
-            else if ( event.getCode().equals( KeyCode.A ) ) {
-                handleControlAInput();
-            }
-            else if ( event.getCode().equals( KeyCode.D ) ) {
-                handleControlDInput();
-            }
-            else {
-                handleControlDirectionInput( event );
+            switch ( event.getCode() ) {
+                case S -> handleControlSInput();
+                case A -> handleControlAInput();
+                case D -> handleControlDInput();
+                case U -> iModel.increaseSelectedBoxesDims();
+                case J -> iModel.decreaseSelectedBoxesDims();
+                case L -> iModel.leftAlignSelectedBoxes();
+                case T -> iModel.topAlignSelectedBoxes();
+                case B -> iModel.bottomAlignSelectedBoxes();
+                case R -> iModel.rightAlignSelectedBoxes();
+                case H -> {}
+                case V -> {}
+                default -> handleControlDirectionInput( event );
             }
         }
         else {
