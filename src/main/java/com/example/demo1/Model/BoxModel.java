@@ -5,9 +5,9 @@ import com.example.demo1.Subscriber;
 import java.util.ArrayList;
 
 public class BoxModel {
-    final double firstBoxPosX = 100;
-    final double firstBoxPosY = 100;
-    final double addToLastBoxDims = 50;
+    final double FIRST_BOX_POS_X = 100;
+    final double FIRST_BOX_POS_Y = 100;
+    final double ADD_TO_LAST_BOX_DIMS = 50;
     ArrayList<Box> boxes;
     ArrayList<Subscriber> subscribers;
 
@@ -23,11 +23,11 @@ public class BoxModel {
     public void addBox() {
         if (boxes.size() > 0) {
             Box lastBox = boxes.get( boxes.size() - 1 );
-            Box newBox = new Box( lastBox.getMyLeft() + addToLastBoxDims, lastBox.getMyTop() + addToLastBoxDims );
+            Box newBox = new Box( lastBox.getMyLeft() + ADD_TO_LAST_BOX_DIMS, lastBox.getMyTop() + ADD_TO_LAST_BOX_DIMS );
             boxes.add( newBox );
         }
         else {
-            boxes.add( new Box( firstBoxPosX, firstBoxPosY ) );
+            boxes.add( new Box( FIRST_BOX_POS_X, FIRST_BOX_POS_Y ) );
         }
         notifySubscribers();
     }

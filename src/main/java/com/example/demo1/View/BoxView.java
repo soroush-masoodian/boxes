@@ -20,6 +20,7 @@ public class BoxView extends StackPane implements Subscriber {
     final String SELECTED_SQUARE_COLOR = "#fc461d";
     final String SQUARE_BORDER_COLOR = "#000000";
     final String SELECTED_SQUARE_BORDER_COLOR = "#ffff00";
+    final double BORDER_WIDTH = 3.5;
     final double CANVAS_WIDTH = 800;
     final double CANVAS_HEIGHT = 800;
     Canvas canvas;
@@ -54,12 +55,13 @@ public class BoxView extends StackPane implements Subscriber {
             }
             graphicsContext.fillRect( box.getMyLeft(), box.getMyTop(), box.getWidth(), box.getHeight() );
 
-            if (currentIdx == iModel.getCursorPos() && iModel.getSelectionConfirmed()) {
+            if ( iModel.getSelectedBoxes().contains( box ) ) {
                 graphicsContext.setStroke( Paint.valueOf( SELECTED_SQUARE_BORDER_COLOR ) );
             }
             else {
                 graphicsContext.setStroke( Paint.valueOf( SQUARE_BORDER_COLOR ) );
             }
+            graphicsContext.setLineWidth( BORDER_WIDTH );
             graphicsContext.strokeRect( box.getMyLeft(), box.getMyTop(), box.getWidth(), box.getHeight() );
         }
     }

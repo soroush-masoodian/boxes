@@ -1,5 +1,6 @@
 package com.example.demo1.InteractionModel;
 
+import com.example.demo1.Controller.AppController;
 import com.example.demo1.Model.Box;
 import com.example.demo1.Model.BoxModel;
 import com.example.demo1.Subscriber;
@@ -15,12 +16,12 @@ import java.util.ArrayList;
  */
 public class InteractionModel {
     IntegerProperty cursorPos;
-    boolean selectionConfirmed;
     BoxModel model;
+    ArrayList<Box> selectedBoxes;
 
     public InteractionModel() {
         cursorPos = new SimpleIntegerProperty( -1 );
-        selectionConfirmed = false;
+        selectedBoxes = new ArrayList<>();
     }
 
     public void setModel( BoxModel model ) {
@@ -46,17 +47,29 @@ public class InteractionModel {
 
     public int getCursorPos() { return cursorPos.getValue(); }
 
-    public boolean getSelectionConfirmed() {
-        return selectionConfirmed;
+    public ArrayList<Box> getSelectedBoxes() {
+        return selectedBoxes;
     }
 
-    public void cancelSelection() {
-        selectionConfirmed = false;
+    public void addToSelectedBoxes(Box box) {
+        selectedBoxes.add( box );
         model.notifySubscribers();
     }
 
-    public void confirmSelection() {
-        selectionConfirmed = true;
+    public void removeFromSelectedBoxes(Box box) {
+        selectedBoxes.remove( box );
+        model.notifySubscribers();
+    }
+
+    public void selectAllBoxes() {
+        for ( Box box : model.getBoxes() ) {
+            addToSelectedBoxes( box );
+        }
+        model.notifySubscribers();
+    }
+
+    public void removeAllSelectedBoxes() {
+        selectedBoxes.clear();
         model.notifySubscribers();
     }
 }

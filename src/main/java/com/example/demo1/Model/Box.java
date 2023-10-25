@@ -2,6 +2,8 @@ package com.example.demo1.Model;
 
 import javafx.beans.property.BooleanProperty;
 
+import java.util.ArrayList;
+
 public class Box {
     private double myTop, myLeft;
     private static double width = 100;
@@ -26,5 +28,9 @@ public class Box {
 
     public double getHeight() {
         return height;
+    }
+
+    public double distanceTo(double mx, double my) {
+        return Math.hypot( myLeft - mx, myTop - my );
     }
 }
