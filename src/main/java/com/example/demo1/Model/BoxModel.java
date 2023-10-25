@@ -43,13 +43,13 @@ public class BoxModel {
         notifySubscribers();
     }
 
-    public ArrayList<Box> sortBoxesByLeftValue() {
+    public ArrayList<Box> sortBoxesByLeftValue(ArrayList<Box> boxesList) {
         ArrayList<Double> boxesLeftValues = new ArrayList<>();
-        boxes.forEach( box -> boxesLeftValues.add( box.getMyLeft() ) );
+         boxesList.forEach( box -> boxesLeftValues.add( box.getMyLeft() ) );
         boxesLeftValues.sort( Comparator.naturalOrder() );
         ArrayList<Box> sortedBoxes = new ArrayList<>();
         for ( Double leftValue : boxesLeftValues ) {
-            for ( Box box : boxes ) {
+            for ( Box box : boxesList ) {
                 if (box.getMyLeft() == leftValue)
                     sortedBoxes.add( box );
             }
@@ -57,13 +57,13 @@ public class BoxModel {
         return sortedBoxes;
     }
 
-    public ArrayList<Box> sortBoxesByTopValue() {
+    public ArrayList<Box> sortBoxesByTopValue(ArrayList<Box> boxesList) {
         ArrayList<Double> boxesTopValues = new ArrayList<>();
-        boxes.forEach( box -> boxesTopValues.add( box.getMyTop() ) );
+        boxesList.forEach( box -> boxesTopValues.add( box.getMyTop() ) );
         boxesTopValues.sort( Comparator.naturalOrder() );
         ArrayList<Box> sortedBoxes = new ArrayList<>();
         for ( Double topValue : boxesTopValues ) {
-            for ( Box box : boxes ) {
+            for ( Box box : boxesList ) {
                 if (box.getMyTop() == topValue)
                     sortedBoxes.add( box );
             }

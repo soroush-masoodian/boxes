@@ -60,7 +60,7 @@ public class InteractionModel {
     public void moveCursorHorizontally( KeyCode code ) {
         try {
             Box currentBox = model.getBoxes().get( getCursorPos() );
-            ArrayList<Box> sortedBoxes = model.sortBoxesByLeftValue();
+            ArrayList<Box> sortedBoxes = model.sortBoxesByLeftValue( model.getBoxes() );
             int adjacentBoxIdx;
             if ( code == KeyCode.LEFT ) {
                 adjacentBoxIdx = sortedBoxes.indexOf( currentBox ) - 1;
@@ -78,7 +78,7 @@ public class InteractionModel {
     public void moveCursorVertically( KeyCode code ) {
         try {
             Box currentBox = model.getBoxes().get( getCursorPos() );
-            ArrayList<Box> sortedBoxes = model.sortBoxesByTopValue();
+            ArrayList<Box> sortedBoxes = model.sortBoxesByTopValue( model.getBoxes() );
             int adjacentBoxIdx;
             if ( code == KeyCode.UP ) {
                 adjacentBoxIdx = sortedBoxes.indexOf( currentBox ) - 1;
@@ -217,6 +217,38 @@ public class InteractionModel {
             double newTop = box.getMyTop() + box.getHeight() - sBox.getHeight();
             sBox.setMyTop( newTop );
         });
+        model.notifySubscribers();
+    }
+
+    public void evenlyDistributeHorizontally() {
+        if (selectedBoxes.size() < 2)
+            return;
+
+        Box leftMost = model.sortBoxesByLeftValue( selectedBoxes ).get( 0 );
+        Box rightMost = model.sortBoxesByLeftValue( selectedBoxes ).get( selectedBoxes.size() - 1 );
+        double totalWidth = rightMost.getMyLeft() + rightMost.getWidth() - leftMost.getMyLeft();
+        double cellWidthPerBox = totalWidth / selectedBoxes.size();
+
+        for ( int i = 0; i < selectedBoxes.size(); i++ ) {
+            selectedBoxes.get( i ).setMyLeft( leftMost.getMyLeft() + i * cellWidthPerBox );
+        }
+
+        model.notifySubscribers();
+    }
+
+    public void evenlyDistributeVertically() {
+        if (selectedBoxes.size() < 2)
+            return;
+
+        Box topMost = model.sortBoxesByTopValue( selectedBoxes ).get( 0 );
+        Box bottomMost = model.sortBoxesByTopValue( selectedBoxes ).get( selectedBoxes.size() - 1 );
+        double totalHeight = bottomMost.getMyTop() + bottomMost.getHeight() - topMost.getMyTop();
+        double cellHeightPerBox = totalHeight / selectedBoxes.size();
+
+        for ( int i = 0; i < selectedBoxes.size(); i++ ) {
+            selectedBoxes.get( i ).setMyTop( topMost.getMyTop() + i * cellHeightPerBox );
+        }
+
         model.notifySubscribers();
     }
 }

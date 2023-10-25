@@ -116,8 +116,8 @@ public class AppController {
                 case T -> iModel.topAlignSelectedBoxes();
                 case B -> iModel.bottomAlignSelectedBoxes();
                 case R -> iModel.rightAlignSelectedBoxes();
-                case H -> {}
-                case V -> {}
+                case H -> iModel.evenlyDistributeHorizontally();
+                case V -> iModel.evenlyDistributeVertically();
                 default -> handleControlDirectionInput( event );
             }
         }
