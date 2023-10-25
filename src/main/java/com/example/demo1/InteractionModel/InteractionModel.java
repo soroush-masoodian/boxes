@@ -7,9 +7,12 @@ import com.example.demo1.Subscriber;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
+import java.security.Key;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
  *
@@ -50,6 +53,43 @@ public class InteractionModel {
 
     public void setCursorPos(int pos) {
         cursorPos.setValue( pos );
+        model.notifySubscribers();
+    }
+
+    public void moveCursorHorizontally( KeyCode code ) {
+        try {
+            Box currentBox = model.getBoxes().get( getCursorPos() );
+            ArrayList<Box> sortedBoxes = model.sortBoxesByLeftValue();
+            int adjacentBoxIdx;
+            if ( code == KeyCode.LEFT ) {
+                adjacentBoxIdx = sortedBoxes.indexOf( currentBox ) - 1;
+                Box adjacentBox = sortedBoxes.get( adjacentBoxIdx );
+                setCursorPos( model.getBoxes().indexOf( adjacentBox ) );
+            }
+            else if ( code == KeyCode.RIGHT ) {
+                adjacentBoxIdx = sortedBoxes.indexOf( currentBox ) + 1;
+                Box adjacentBox = sortedBoxes.get( adjacentBoxIdx );
+                setCursorPos( model.getBoxes().indexOf( adjacentBox ) );
+            }
+        } catch ( Exception e ) { }
+    }
+
+    public void moveCursorVertically( KeyCode code ) {
+        try {
+            Box currentBox = model.getBoxes().get( getCursorPos() );
+            ArrayList<Box> sortedBoxes = model.sortBoxesByTopValue();
+            int adjacentBoxIdx;
+            if ( code == KeyCode.UP ) {
+                adjacentBoxIdx = sortedBoxes.indexOf( currentBox ) - 1;
+                Box adjacentBox = sortedBoxes.get( adjacentBoxIdx );
+                setCursorPos( model.getBoxes().indexOf( adjacentBox ) );
+            }
+            else if ( code == KeyCode.DOWN ) {
+                adjacentBoxIdx = sortedBoxes.indexOf( currentBox ) + 1;
+                Box adjacentBox = sortedBoxes.get( adjacentBoxIdx );
+                setCursorPos( model.getBoxes().indexOf( adjacentBox ) );
+            }
+        } catch ( Exception e ) { }
     }
 
     public ArrayList<Box> getSelectedBoxes() {

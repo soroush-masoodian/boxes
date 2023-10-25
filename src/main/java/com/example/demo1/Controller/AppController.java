@@ -1,8 +1,11 @@
 package com.example.demo1.Controller;
 
 import com.example.demo1.InteractionModel.InteractionModel;
+import com.example.demo1.Model.Box;
 import com.example.demo1.Model.BoxModel;
 import javafx.scene.input.*;
+
+import java.security.Key;
 
 /**
  *
@@ -63,10 +66,6 @@ public class AppController {
         state = InteractionState.READY;
     }
 
-    public void handleDirectionInput( KeyEvent event ) {
-
-    }
-
     public void handleControlDirectionInput( KeyEvent event ) {
         switch(event.getCode()) {
             case RIGHT -> iModel.moveSelectedBoxesRight();
@@ -76,18 +75,32 @@ public class AppController {
         }
     }
 
-    public void readyStateEvents( KeyEvent event ) {
-        if ( event.getCode().equals( KeyCode.C ) && event.isControlDown() ) {
-            model.addBox();
-        }
-        else if ( event.getCode().equals( KeyCode.S ) && event.isControlDown() ) {
-            handleControlSInput();
-        }
-        else if( event.getCode().equals( KeyCode.A ) && event.isControlDown()) {
-            handleControlAInput();
-        }
-        else if ( event.getCode().equals( KeyCode.TAB ) ) {
+    public void handleCursorMovement( KeyEvent event ) {
+        if ( event.getCode().equals( KeyCode.TAB ) ) {
             iModel.moveCursor();
+        }
+        else if ( event.getCode().equals( KeyCode.UP ) || event.getCode().equals( KeyCode.DOWN ) ) {
+            iModel.moveCursorVertically( event.getCode() );
+        }
+        else if ( event.getCode().equals( KeyCode.RIGHT ) || event.getCode().equals( KeyCode.LEFT ) ) {
+            iModel.moveCursorHorizontally( event.getCode() );
+        }
+    }
+
+    public void readyStateEvents( KeyEvent event ) {
+        if (event.isControlDown()) {
+            if ( event.getCode().equals( KeyCode.C ) ) {
+                model.addBox();
+            }
+            else if ( event.getCode().equals( KeyCode.S ) ) {
+                handleControlSInput();
+            }
+            else if ( event.getCode().equals( KeyCode.A ) ) {
+                handleControlAInput();
+            }
+        }
+        else {
+            handleCursorMovement( event );
         }
     }
 
@@ -106,8 +119,8 @@ public class AppController {
                 handleControlDirectionInput( event );
             }
         }
-        else if ( event.getCode().equals( KeyCode.TAB ) ) {
-            iModel.moveCursor();
+        else {
+            handleCursorMovement( event );
         }
     }
 

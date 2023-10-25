@@ -37,8 +37,4 @@ public class Box {
     public double getHeight() {
         return height;
     }
-
-    public double distanceTo(double mx, double my) {
-        return Math.hypot( myLeft - mx, myTop - my );
-    }
 }

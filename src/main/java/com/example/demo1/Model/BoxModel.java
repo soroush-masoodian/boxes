@@ -3,6 +3,7 @@ package com.example.demo1.Model;
 import com.example.demo1.Subscriber;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class BoxModel {
     final double FIRST_BOX_POS_X = 100;
@@ -40,6 +41,34 @@ public class BoxModel {
     public void addSubscriber( Subscriber subscriber ) {
         this.subscribers.add( subscriber );
         notifySubscribers();
+    }
+
+    public ArrayList<Box> sortBoxesByLeftValue() {
+        ArrayList<Double> boxesLeftValues = new ArrayList<>();
+        boxes.forEach( box -> boxesLeftValues.add( box.getMyLeft() ) );
+        boxesLeftValues.sort( Comparator.naturalOrder() );
+        ArrayList<Box> sortedBoxes = new ArrayList<>();
+        for ( Double leftValue : boxesLeftValues ) {
+            for ( Box box : boxes ) {
+                if (box.getMyLeft() == leftValue)
+                    sortedBoxes.add( box );
+            }
+        }
+        return sortedBoxes;
+    }
+
+    public ArrayList<Box> sortBoxesByTopValue() {
+        ArrayList<Double> boxesTopValues = new ArrayList<>();
+        boxes.forEach( box -> boxesTopValues.add( box.getMyTop() ) );
+        boxesTopValues.sort( Comparator.naturalOrder() );
+        ArrayList<Box> sortedBoxes = new ArrayList<>();
+        for ( Double topValue : boxesTopValues ) {
+            for ( Box box : boxes ) {
+                if (box.getMyTop() == topValue)
+                    sortedBoxes.add( box );
+            }
+        }
+        return sortedBoxes;
     }
 
     public void notifySubscribers() {
