@@ -17,8 +17,9 @@ import java.util.ListIterator;
 
 public class BoxView extends StackPane implements Subscriber {
     final String DEFAULT_SQUARE_COLOR = "#32a8a6";
-    final String SELECTED_SQUARE_COLOR = "#f06d0a";
+    final String SELECTED_SQUARE_COLOR = "#fc461d";
     final String SQUARE_BORDER_COLOR = "#000000";
+    final String SELECTED_SQUARE_BORDER_COLOR = "#ffff00";
     final double CANVAS_WIDTH = 800;
     final double CANVAS_HEIGHT = 800;
     Canvas canvas;
@@ -30,7 +31,7 @@ public class BoxView extends StackPane implements Subscriber {
         graphicsContext = canvas.getGraphicsContext2D();
 
         this.getChildren().add( canvas );
-        this.setStyle( "-fx-background-color: #022305FF" );
+        this.setStyle( "-fx-background-color: #022305" );
     }
 
     public void setIModel(InteractionModel newIModel) { iModel = newIModel; }
@@ -44,16 +45,21 @@ public class BoxView extends StackPane implements Subscriber {
         ListIterator<Box> boxesIterator = boxes.listIterator();
         while (boxesIterator.hasNext()) {
             Box box = boxesIterator.next();
-            if ( boxesIterator.nextIndex() - 1 == iModel.getCursorPos()) {
+            int currentIdx = boxesIterator.nextIndex() - 1;
+            if ( currentIdx == iModel.getCursorPos()) {
                 graphicsContext.setFill( Paint.valueOf( SELECTED_SQUARE_COLOR ) );
             }
             else {
                 graphicsContext.setFill( Paint.valueOf( DEFAULT_SQUARE_COLOR ) );
             }
-
             graphicsContext.fillRect( box.getMyLeft(), box.getMyTop(), box.getWidth(), box.getHeight() );
 
-            graphicsContext.setFill( Paint.valueOf( SQUARE_BORDER_COLOR ) );
+            if (currentIdx == iModel.getCursorPos() && iModel.getSelectionConfirmed()) {
+                graphicsContext.setStroke( Paint.valueOf( SELECTED_SQUARE_BORDER_COLOR ) );
+            }
+            else {
+                graphicsContext.setStroke( Paint.valueOf( SQUARE_BORDER_COLOR ) );
+            }
             graphicsContext.strokeRect( box.getMyLeft(), box.getMyTop(), box.getWidth(), box.getHeight() );
         }
     }

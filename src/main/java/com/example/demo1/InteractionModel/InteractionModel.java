@@ -15,10 +15,12 @@ import java.util.ArrayList;
  */
 public class InteractionModel {
     IntegerProperty cursorPos;
+    boolean selectionConfirmed;
     BoxModel model;
 
     public InteractionModel() {
         cursorPos = new SimpleIntegerProperty( -1 );
+        selectionConfirmed = false;
     }
 
     public void setModel( BoxModel model ) {
@@ -43,4 +45,18 @@ public class InteractionModel {
     }
 
     public int getCursorPos() { return cursorPos.getValue(); }
+
+    public boolean getSelectionConfirmed() {
+        return selectionConfirmed;
+    }
+
+    public void cancelSelection() {
+        selectionConfirmed = false;
+        model.notifySubscribers();
+    }
+
+    public void confirmSelection() {
+        selectionConfirmed = true;
+        model.notifySubscribers();
+    }
 }

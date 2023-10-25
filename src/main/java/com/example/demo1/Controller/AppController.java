@@ -24,13 +24,20 @@ public class AppController {
     }
 
     public void handleEvent( KeyEvent event ) {
-
         if (event.getCode().equals( KeyCode.C ) && event.isControlDown()) {
             model.addBox();
         }
-        if (event.getCode().equals( KeyCode.TAB )) {
+        else if (event.getCode().equals( KeyCode.S ) && event.isControlDown()) {
+            if (iModel.getSelectionConfirmed()) {
+                iModel.cancelSelection();
+            }
+            else {
+                iModel.confirmSelection();
+            }
+            System.out.println(iModel.getSelectionConfirmed());
+        }
+        else if (event.getCode().equals( KeyCode.TAB )) {
             iModel.moveCursor();
         }
-
     }
 }
