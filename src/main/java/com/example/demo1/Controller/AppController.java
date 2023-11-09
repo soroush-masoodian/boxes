@@ -3,16 +3,13 @@ package com.example.demo1.Controller;
 import com.example.demo1.InteractionModel.InteractionModel;
 import com.example.demo1.Model.Box;
 import com.example.demo1.Model.BoxModel;
+import com.example.demo1.PublishSubscribe;
 import javafx.scene.input.*;
 
-import java.security.Key;
-
-/**
- *
- */
 public class AppController {
     BoxModel model;
     InteractionModel iModel;
+    PublishSubscribe publishSubscribe;
     enum InteractionState { READY, SELECTED }
     InteractionState state;
 
@@ -23,6 +20,10 @@ public class AppController {
 
     public void setIModel(InteractionModel interactionModel) {
         iModel = interactionModel;
+    }
+
+    public void setPublishSubscribe(PublishSubscribe pubSub) {
+        publishSubscribe = pubSub;
     }
 
     public void handleControlSInput() {
@@ -59,9 +60,12 @@ public class AppController {
     }
 
     public void handleControlDInput() {
+        int deletedItems = iModel.getSelectedBoxes().size();
         iModel.getSelectedBoxes().forEach( box -> model.deleteBox( box ) );
         iModel.removeAllSelectedBoxes();
         iModel.setCursorPos( -1 );
+
+        publishSubscribe.addToDeleted( deletedItems, model.getBoxes().size() );
 
         state = InteractionState.READY;
     }
@@ -91,6 +95,8 @@ public class AppController {
         if (event.isControlDown()) {
             if ( event.getCode().equals( KeyCode.C ) ) {
                 model.addBox();
+
+                publishSubscribe.addToCreated( model.getBoxes().size() );
             }
             else if ( event.getCode().equals( KeyCode.S ) ) {
                 handleControlSInput();
