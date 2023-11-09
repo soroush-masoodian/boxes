@@ -19,21 +19,21 @@ public class PublishSubscribe {
         subscribers.add( sub );
     }
 
-    public void addToCreated(int numCurrentBoxes) {
+    public void addToCreated() {
         created += 1;
         current += 1;
-        notifySubscribers(  numCurrentBoxes );
+        notifySubscribers(   );
     }
 
-    public void addToDeleted(int numberDeleted, int numCurrentBoxes) {
+    public void addToDeleted(int numberDeleted) {
         deleted += numberDeleted;
         current -= numberDeleted;
-        notifySubscribers( numCurrentBoxes );
+        notifySubscribers( );
     }
 
-    public void notifySubscribers(int numBoxes) {
+    public void notifySubscribers() {
         for (StatusBarSubscriber sub : subscribers) {
-            sub.modelChanged( created, deleted, numBoxes );
+            sub.modelChanged( created, deleted, created-deleted );
         }
     }
 }

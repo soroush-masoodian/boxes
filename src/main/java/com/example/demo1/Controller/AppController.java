@@ -65,7 +65,7 @@ public class AppController {
         iModel.removeAllSelectedBoxes();
         iModel.setCursorPos( -1 );
 
-        publishSubscribe.addToDeleted( deletedItems, model.getBoxes().size() );
+        publishSubscribe.addToDeleted( deletedItems );
 
         state = InteractionState.READY;
     }
@@ -96,7 +96,7 @@ public class AppController {
             if ( event.getCode().equals( KeyCode.C ) ) {
                 model.addBox();
 
-                publishSubscribe.addToCreated( model.getBoxes().size() );
+                publishSubscribe.addToCreated();
             }
             else if ( event.getCode().equals( KeyCode.S ) ) {
                 handleControlSInput();
