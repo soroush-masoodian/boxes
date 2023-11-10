@@ -39,6 +39,7 @@ public class BoxView extends StackPane implements Subscriber {
 
     public void setupEvents( AppController controller ) {
         this.setOnKeyPressed( event -> controller.handleEvent( event ));
+        this.setOnKeyReleased( event -> controller.handleKeyReleased( event ) );
     }
 
     public void draw( ArrayList<Box> boxes ) {

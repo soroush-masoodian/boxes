@@ -4,14 +4,18 @@ import com.example.demo1.InteractionModel.InteractionModel;
 import com.example.demo1.Model.Box;
 import com.example.demo1.Model.BoxModel;
 import com.example.demo1.PublishSubscribe;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.input.*;
+
+import java.security.Key;
 
 public class AppController {
     BoxModel model;
     InteractionModel iModel;
     PublishSubscribe publishSubscribe;
-    enum InteractionState { READY, SELECTED }
+    enum InteractionState { READY, SELECTED, GUIDE_VIEW }
     InteractionState state;
+    SimpleIntegerProperty controlHoldTime = new SimpleIntegerProperty(0);
 
     public void setModel(BoxModel model) {
         this.model = model;
@@ -91,8 +95,24 @@ public class AppController {
         }
     }
 
+    public void countControlPressedTime( KeyEvent event ) {
+        System.out.println(controlHoldTime.get());
+        controlHoldTime.set( event.isControlDown() ? controlHoldTime.get() + 1 : 0 );
+    }
+
+    public void resetControlHoldTime( KeyEvent event ) {
+        if (event.getCode().equals( KeyCode.CONTROL ))
+            controlHoldTime.set( 0 );
+    }
+
+    public void handleKeyReleased( KeyEvent event ) {
+        resetControlHoldTime( event );
+    }
+
     public void readyStateEvents( KeyEvent event ) {
         if (event.isControlDown()) {
+            countControlPressedTime( event );
+
             if ( event.getCode().equals( KeyCode.C ) ) {
                 model.addBox();
 
@@ -140,6 +160,7 @@ public class AppController {
          switch ( state ) {
             case READY -> readyStateEvents( event );
             case SELECTED -> selectedStateEvents( event );
+             case GUIDE_VIEW -> {}
         }
     }
 }
