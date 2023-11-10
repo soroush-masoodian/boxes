@@ -15,7 +15,6 @@ public class AppController {
     PublishSubscribe publishSubscribe;
     enum InteractionState { READY, SELECTED, GUIDE_VIEW }
     InteractionState state;
-    SimpleIntegerProperty controlHoldTime = new SimpleIntegerProperty(0);
 
     public void setModel(BoxModel model) {
         this.model = model;
@@ -38,7 +37,7 @@ public class AppController {
                 iModel.removeFromSelectedBoxes( model.getBoxes().get(iModel.getCursorPos()) );
         }
 
-        if (iModel.getSelectedBoxes().size() > 0) {
+        if (!iModel.getSelectedBoxes().isEmpty()) {
             state = InteractionState.SELECTED;
         }
         else {
@@ -47,7 +46,7 @@ public class AppController {
     }
 
     public void handleControlAInput() {
-        if (iModel.getSelectedBoxes().size() > 0 && iModel.getSelectedBoxes().size() == model.getBoxes().size()) {
+        if (!iModel.getSelectedBoxes().isEmpty() && iModel.getSelectedBoxes().size() == model.getBoxes().size()) {
             iModel.removeAllSelectedBoxes();
         }
         else {
@@ -55,7 +54,7 @@ public class AppController {
             iModel.selectAllBoxes();
         }
 
-        if (iModel.getSelectedBoxes().size() > 0) {
+        if (!iModel.getSelectedBoxes().isEmpty()) {
             state = InteractionState.SELECTED;
         }
         else {
@@ -96,17 +95,13 @@ public class AppController {
     }
 
     public void countControlPressedTime( KeyEvent event ) {
-        System.out.println(controlHoldTime.get());
-        controlHoldTime.set( event.isControlDown() ? controlHoldTime.get() + 1 : 0 );
     }
 
     public void resetControlHoldTime( KeyEvent event ) {
-        if (event.getCode().equals( KeyCode.CONTROL ))
-            controlHoldTime.set( 0 );
     }
 
     public void handleKeyReleased( KeyEvent event ) {
-        resetControlHoldTime( event );
+        System.out.println("helo");
     }
 
     public void readyStateEvents( KeyEvent event ) {

@@ -33,13 +33,14 @@ public class BoxView extends StackPane implements Subscriber {
 
         this.getChildren().add( canvas );
         this.setStyle( "-fx-background-color: #022305" );
+        this.requestFocus();
     }
 
     public void setIModel(InteractionModel newIModel) { iModel = newIModel; }
 
     public void setupEvents( AppController controller ) {
-        this.setOnKeyPressed( event -> controller.handleEvent( event ));
-        this.setOnKeyReleased( event -> controller.handleKeyReleased( event ) );
+        this.setOnKeyPressed(controller::handleEvent);
+        this.setOnKeyReleased(controller::handleKeyReleased);
     }
 
     public void draw( ArrayList<Box> boxes ) {
