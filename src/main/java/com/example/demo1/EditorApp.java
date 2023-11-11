@@ -16,7 +16,6 @@ public class EditorApp extends Application {
 
         Scene scene = new Scene( root );
         scene.onKeyPressedProperty().bind( root.onKeyPressedProperty() );
-        scene.onKeyReleasedProperty().bind( root.onKeyReleasedProperty() );
 
         stage.setTitle( "Assignment 3" );
         stage.resizableProperty().setValue( false );

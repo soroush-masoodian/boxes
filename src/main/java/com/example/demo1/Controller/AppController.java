@@ -15,6 +15,7 @@ public class AppController {
     PublishSubscribe publishSubscribe;
     enum InteractionState { READY, SELECTED, GUIDE_VIEW }
     InteractionState state;
+    boolean controlPressed = false;
 
     public void setModel(BoxModel model) {
         this.model = model;
@@ -94,32 +95,29 @@ public class AppController {
         }
     }
 
-    public void countControlPressedTime( KeyEvent event ) {
-    }
-
-    public void resetControlHoldTime( KeyEvent event ) {
-    }
-
-    public void handleKeyReleased( KeyEvent event ) {
-        System.out.println("helo");
+    public void handleControlGInput() {
+        if ( state != InteractionState.GUIDE_VIEW ) {
+            state = InteractionState.GUIDE_VIEW;
+            iModel.setShowGuide(true);
+        }
+        else {
+            state = InteractionState.READY;
+            iModel.setShowGuide(false);
+        }
     }
 
     public void readyStateEvents( KeyEvent event ) {
         if (event.isControlDown()) {
-            countControlPressedTime( event );
-
-            if ( event.getCode().equals( KeyCode.C ) ) {
-                model.addBox();
-
-                publishSubscribe.addToCreated();
+            switch ( event.getCode() ) {
+                case G -> handleControlGInput();
+                case C -> {
+                    model.addBox();
+                    publishSubscribe.addToCreated();
+                }
+                case S -> handleControlSInput();
+                case A -> handleControlAInput();
+                }
             }
-            else if ( event.getCode().equals( KeyCode.S ) ) {
-                handleControlSInput();
-            }
-            else if ( event.getCode().equals( KeyCode.A ) ) {
-                handleControlAInput();
-            }
-        }
         else {
             handleCursorMovement( event );
         }
@@ -128,6 +126,7 @@ public class AppController {
     public void selectedStateEvents( KeyEvent event ) {
         if (event.isControlDown()) {
             switch ( event.getCode() ) {
+                case G -> handleControlGInput();
                 case S -> handleControlSInput();
                 case A -> handleControlAInput();
                 case D -> handleControlDInput();
@@ -147,6 +146,31 @@ public class AppController {
         }
     }
 
+    public void guideViewStateEvents( KeyEvent event ) {
+        iModel.setShowGuide(false);
+        state = InteractionState.READY;
+
+        switch ( event.getCode() ) {
+            case C -> {
+                model.addBox();
+                publishSubscribe.addToCreated();
+            }
+            case G -> handleControlGInput();
+            case S -> handleControlSInput();
+            case A -> handleControlAInput();
+            case D -> handleControlDInput();
+            case U -> iModel.increaseSelectedBoxesDims();
+            case J -> iModel.decreaseSelectedBoxesDims();
+            case L -> iModel.leftAlignSelectedBoxes();
+            case T -> iModel.topAlignSelectedBoxes();
+            case B -> iModel.bottomAlignSelectedBoxes();
+            case R -> iModel.rightAlignSelectedBoxes();
+            case H -> iModel.evenlyDistributeHorizontally();
+            case V -> iModel.evenlyDistributeVertically();
+            default -> handleControlDirectionInput( event );
+        }
+    }
+
     public void handleEvent( KeyEvent event ) {
         if ( event.getCode().equals( KeyCode.SPACE ) ) {
             System.out.println(state);
@@ -155,7 +179,7 @@ public class AppController {
          switch ( state ) {
             case READY -> readyStateEvents( event );
             case SELECTED -> selectedStateEvents( event );
-             case GUIDE_VIEW -> {}
+             case GUIDE_VIEW -> guideViewStateEvents( event );
         }
     }
 }

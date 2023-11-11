@@ -6,6 +6,7 @@ import com.example.demo1.Model.Box;
 import com.example.demo1.Subscriber;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.StackPane;
@@ -40,7 +41,6 @@ public class BoxView extends StackPane implements Subscriber {
 
     public void setupEvents( AppController controller ) {
         this.setOnKeyPressed(controller::handleEvent);
-        this.setOnKeyReleased(controller::handleKeyReleased);
     }
 
     public void draw( ArrayList<Box> boxes ) {
@@ -49,6 +49,7 @@ public class BoxView extends StackPane implements Subscriber {
         while (boxesIterator.hasNext()) {
             Box box = boxesIterator.next();
             int currentIdx = boxesIterator.nextIndex() - 1;
+
             if ( currentIdx == iModel.getCursorPos()) {
                 graphicsContext.setFill( Paint.valueOf( SELECTED_SQUARE_COLOR ) );
             }
@@ -66,6 +67,15 @@ public class BoxView extends StackPane implements Subscriber {
             graphicsContext.setLineWidth( BORDER_WIDTH );
             graphicsContext.strokeRect( box.getMyLeft(), box.getMyTop(), box.getWidth(), box.getHeight() );
         }
+        if (iModel.getShowGuide())
+            displayGuide();
+    }
+
+    public void displayGuide() {
+        Image img = new Image(String.valueOf(getClass().getClassLoader().getResource( "guide.png" )), 760, 380, false, false);
+        graphicsContext.setFill(Paint.valueOf("GREY"));
+        graphicsContext.fillRect(10, 10, 780, 780);
+        graphicsContext.drawImage(img, 20, 20);
     }
 
     public void modelChanged( ArrayList<Box> boxes ) {

@@ -23,10 +23,12 @@ public class InteractionModel {
     IntegerProperty cursorPos;
     BoxModel model;
     ArrayList<Box> selectedBoxes;
+    boolean showGuide;
 
     public InteractionModel() {
         cursorPos = new SimpleIntegerProperty( -1 );
         selectedBoxes = new ArrayList<>();
+        showGuide = false;
     }
 
     public void setModel( BoxModel model ) {
@@ -34,7 +36,7 @@ public class InteractionModel {
     }
 
     public void moveCursor() {
-        if (model.getBoxes().size() == 0) {
+        if (model.getBoxes().isEmpty()) {
             cursorPos.setValue( -1 );
             return;
         }
@@ -250,5 +252,14 @@ public class InteractionModel {
         }
 
         model.notifySubscribers();
+    }
+
+    public void setShowGuide(boolean newValue) {
+        showGuide = newValue;
+        model.notifySubscribers();
+    }
+
+    public boolean getShowGuide() {
+        return showGuide;
     }
 }

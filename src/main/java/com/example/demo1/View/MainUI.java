@@ -35,6 +35,5 @@ public class MainUI extends VBox {
         this.getChildren().add( statusBarView );
 
         this.onKeyPressedProperty().bind( view.onKeyPressedProperty() );
-        this.onKeyReleasedProperty().bind( view.onKeyReleasedProperty() );
     }
 }
